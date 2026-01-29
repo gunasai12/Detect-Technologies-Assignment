@@ -1,0 +1,39 @@
+services:
+  # Main Warehouse Vision System
+  - type: web
+    name: warehouse-vision-api
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.render.txt
+    startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 4 --timeout 120 src.render_main:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.0
+      - key: PORT
+        value: 10000
+      - key: FLASK_ENV
+        value: production
+      - key: RENDER_SERVICE_URL
+        sync: false
+    healthCheck:
+      path: /health
+      initialDelaySeconds: 30
+      periodSeconds: 10
+      timeoutSeconds: 5
+      failureThreshold: 3
+    autoDeploy: true
+    domains:
+      - warehouse-vision.onrender.com
+    
+  # Redis for caching (if needed)
+  - type: redis
+    name: warehouse-redis
+    plan: free
+    ipAllowList: []  # Only accessible from other services
+    
+  # PostgreSQL for data storage (if needed)
+  - type: postgres
+    name: warehouse-db
+    plan: free
+    database: warehouse_vision
+    user: warehouse_user
