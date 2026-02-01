@@ -1,5 +1,4 @@
 services:
-  # Main Warehouse Vision System
   - type: web
     name: warehouse-vision-api
     runtime: python
@@ -10,7 +9,7 @@ services:
       - key: FLASK_ENV
         value: production
       - key: RENDER_SERVICE_URL
-          sync: false
+        sync: false
     healthCheck:
       path: /health
       initialDelaySeconds: 30
@@ -20,13 +19,11 @@ services:
     autoDeploy: true
 
 databases:
-  # PostgreSQL for data storage
   - name: warehouse-db
     plan: free
     databaseName: warehouse_vision
     user: warehouse_user
 
 keyValueStores:
-  # Redis for caching
   - name: warehouse-redis
     plan: free
