@@ -4,24 +4,5 @@ services:
     runtime: python
     plan: free
     buildCommand: pip install -r requirements.render.txt
-    startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 4 --timeout 120 src.render_main:app
-    envVars:
-      - key: FLASK_ENV
-        value: production
-      - key: RENDER_SERVICE_URL
-        sync: false
-    healthCheck:
-      path: /health
-      initialDelaySeconds: 30
-      periodSeconds: 10
-      timeoutSeconds: 5
-      failureThreshold: 3
+    startCommand: gunicorn --bind 0.0.0.0:$PORT src.render_main:app
     autoDeploy: true
-databases:
-  - name: warehouse-db
-    plan: free
-    databaseName: warehouse_vision
-    user: warehouse_user
-keyValueStores:
-  - name: warehouse-redis
-    plan: free
