@@ -17,13 +17,11 @@ services:
       timeoutSeconds: 5
       failureThreshold: 3
     autoDeploy: true
-
 databases:
   - name: warehouse-db
     plan: free
     databaseName: warehouse_vision
     user: warehouse_user
-
 keyValueStores:
   - name: warehouse-redis
     plan: free
