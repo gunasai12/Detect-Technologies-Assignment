@@ -10,7 +10,7 @@ services:
       - key: FLASK_ENV
         value: production
       - key: RENDER_SERVICE_URL
-        sync: false
+          sync: false
     healthCheck:
       path: /health
       initialDelaySeconds: 30
@@ -18,18 +18,15 @@ services:
       timeoutSeconds: 5
       failureThreshold: 3
     autoDeploy: true
-    domains:
-      - warehouse-vision.onrender.com
-    
-  # Redis for caching (if needed)
-  - type: redis
-    name: warehouse-redis
+
+databases:
+  # PostgreSQL for data storage
+  - name: warehouse-db
     plan: free
-    ipAllowList: []  # Only accessible from other services
-    
-  # PostgreSQL for data storage (if needed)
-  - type: postgres
-    name: warehouse-db
-    plan: free
-    database: warehouse_vision
+    databaseName: warehouse_vision
     user: warehouse_user
+
+keyValueStores:
+  # Redis for caching
+  - name: warehouse-redis
+    plan: free
